@@ -40,7 +40,7 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (NSArray *)getColors:(int)MaxColors {
+- (NSArray<UIColor *> *)getColors:(int)MaxColors {
     struct CGImage *cgImage = [self.image CGImage];
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
     const UInt8 *imageData = CFDataGetBytePtr(data);
@@ -79,9 +79,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell new];
-    int ncolors = indexPath.row + 2;
+    int ncolors = indexPath.row + 1;
+    NSArray *colors;
+    if (ncolors == 1) {
+        colors = [self getColors:2];
+        CGFloat a, b, c, d, w, x, y, z;
+        [colors[0] getRed:&a green:&b blue:&c alpha:&d];
+        [colors[1] getRed:&w green:&x blue:&y alpha:&z];
+        colors = @[[UIColor colorWithRed:(a + w) / 2 green:(b + x) / 2 blue:(c + y) / 2 alpha:(d + z)/ 2]];
+    } else {
+        colors = [self getColors:ncolors];
+    }
     CGFloat w = self.view.bounds.size.width;
-    NSArray *colors = [self getColors:ncolors];
     for (int i = 0; i < ncolors; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(w / ncolors * i, 0, w / ncolors, tableView.rowHeight)];
         label.text = [@(i + 1) description];
