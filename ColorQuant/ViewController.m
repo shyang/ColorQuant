@@ -34,6 +34,7 @@
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         imageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 400);
         imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.backgroundColor = [self avgColor];
         self.tableView.tableHeaderView = imageView;
         [self.tableView reloadData];
     }
@@ -61,8 +62,11 @@
     struct Pix *newPix = pixMedianCutQuantGeneral(&myPix, 0, 0, MaxColors, 0, 10, 0);
 //  NSLog(@"pixWrite=%d", pixWrite("/tmp/lept-new.bmp", newPix, IFF_BMP));
 
+    if (!newPix) {
+        return nil;
+    }
     NSMutableArray *colors = [NSMutableArray array];
-    for (int i = 0; i < MaxColors; i++) {
+    for (int i = 0; i < newPix->colormap->n; i++) {
         struct RGBA_Quad c = ((struct RGBA_Quad *)newPix->colormap->array)[i];
         UIColor *uiColor = [UIColor colorWithRed:c.red / 255.0 green:c.green / 255.0 blue:c.blue / 255.0 alpha:c.alpha / 255.0];
         [colors addObject:uiColor];
@@ -70,26 +74,29 @@
     return colors;
 }
 
+- (UIColor *)avgColor {
+    NSArray<UIColor *> *colors = [self getColors:2];
+    if (!colors) {
+        return nil;
+    }
+    CGFloat a, b, c, d, w, x, y, z;
+    [colors[0] getRed:&a green:&b blue:&c alpha:&d];
+    [colors[1] getRed:&w green:&x blue:&y alpha:&z];
+    return [UIColor colorWithRed:(a + w) / 2 green:(b + x) / 2 blue:(c + y) / 2 alpha:(d + z)/ 2];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.image) {
-        return 9;
+        return 8;
     }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell new];
-    int ncolors = indexPath.row + 1;
-    NSArray *colors;
-    if (ncolors == 1) {
-        colors = [self getColors:2];
-        CGFloat a, b, c, d, w, x, y, z;
-        [colors[0] getRed:&a green:&b blue:&c alpha:&d];
-        [colors[1] getRed:&w green:&x blue:&y alpha:&z];
-        colors = @[[UIColor colorWithRed:(a + w) / 2 green:(b + x) / 2 blue:(c + y) / 2 alpha:(d + z)/ 2]];
-    } else {
-        colors = [self getColors:ncolors];
-    }
+    cell.backgroundColor = UIColor.whiteColor;
+    int ncolors = indexPath.row + 2;
+    NSArray *colors = [self getColors:ncolors];
     CGFloat w = self.view.bounds.size.width;
     for (int i = 0; i < ncolors; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(w / ncolors * i, 0, w / ncolors, tableView.rowHeight)];
