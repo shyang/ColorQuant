@@ -10,15 +10,34 @@
 
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic) UIImage *image;
+@property (nonatomic) UIImageView *imageView;
+@property (nonatomic) UIView *originalView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.view.backgroundColor = UIColor.whiteColor;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Open" style:UIBarButtonItemStylePlain target:self action:@selector(onRight)];
-    self.tableView.rowHeight = 44;
+
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 100, self.view.bounds.size.width - 100, self.view.bounds.size.height - 200)];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.imageView = imageView;
+    [self.view addSubview:imageView];
+
+    self.originalView = [[UIView alloc] initWithFrame:CGRectMake(0, 100, 30, 30)];
+    self.originalView.layer.borderColor = [UIColor redColor].CGColor;
+    self.originalView.layer.masksToBounds = YES;
+    [self.view addSubview:self.originalView];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.shadowImage = nil;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)onRight {
@@ -31,18 +50,31 @@
     UIImage *image = info[@"UIImagePickerControllerOriginalImage"];
     if (image) {
         self.image = image;
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        imageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 400);
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        imageView.backgroundColor = [self avgColor];
-        self.tableView.tableHeaderView = imageView;
-        [self.tableView reloadData];
+        self.imageView.image = image;
+        UIColor *color = [self getColors:5].firstObject;
+        self.originalView.backgroundColor = color; // 未经过手工调色
+        self.view.backgroundColor = [self adjusted:color]; // 手工调色
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSArray<UIColor *> *)getColors:(int)MaxColors {
     struct CGImage *cgImage = [self.image CGImage];
+
+    // 截图 PNG 每像素 16 bit，需特别处理
+    if (CGImageGetBitsPerPixel(cgImage) != 32) {
+        size_t w = CGImageGetWidth(cgImage);
+        size_t h = CGImageGetHeight(cgImage);
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        CGContextRef context = CGBitmapContextCreate(nil, w, h, 8, 0, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast); // kCGImageAlphaNoneSkipLast
+
+        CGContextDrawImage(context, CGRectMake(0, 0, w, h), cgImage);
+        cgImage = CGBitmapContextCreateImage(context);
+        [UIImagePNGRepresentation([[UIImage alloc] initWithCGImage:cgImage]) writeToFile:@"/tmp/lept-orig.png" atomically:YES];
+        CGContextRelease(context);
+        CGColorSpaceRelease(colorSpace);
+    }
+
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
     const UInt8 *imageData = CFDataGetBytePtr(data);
 
@@ -55,7 +87,9 @@
     myPix.data = (l_uint32 *)imageData;
     myPix.spp = myPix.d / 8;
 
-    pixEndianByteSwap(&myPix);
+    if (cgImage == [self.image CGImage]) {
+        pixEndianByteSwap(&myPix);
+    }
 
 //  pixMedianCutQuantGeneral(<#PIX *pixs#>, <#l_int32 ditherflag#>, <#l_int32 outdepth#>, <#l_int32 maxcolors#>, <#l_int32 sigbits#>, <#l_int32 maxsub#>, <#l_int32 checkbw#>)
 //  NSLog(@"pixWrite=%d", pixWrite("/tmp/lept-res.bmp", &myPix, IFF_BMP));
@@ -74,38 +108,32 @@
     return colors;
 }
 
-- (UIColor *)avgColor {
-    NSArray<UIColor *> *colors = [self getColors:2];
-    if (!colors) {
+- (UIColor *)adjusted:(UIColor *)input {
+    if (!input) {
         return nil;
     }
-    CGFloat a, b, c, d, w, x, y, z;
-    [colors[0] getRed:&a green:&b blue:&c alpha:&d];
-    [colors[1] getRed:&w green:&x blue:&y alpha:&z];
-    return [UIColor colorWithRed:(a + w) / 2 green:(b + x) / 2 blue:(c + y) / 2 alpha:(d + z)/ 2];
-}
+    CGFloat h, s, b, a;
+    [input getHue:&h saturation:&s brightness:&b alpha:&a];
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.image) {
-        return 8;
+    if (s <= 0.05 || s > 0.70) {
+        // ignore
+    } else if (s <= 0.10) {
+        s += 0.10;
+    } else if (s <= 0.30) {
+        s += 0.30;
+    } else if (s <= 0.40) {
+        s += 0.20;
+    } else if (s <= 0.50) {
+        s += 0.10;
+    } else if (s <= 0.70) {
+        s += 0.5;
     }
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell new];
-    cell.backgroundColor = UIColor.whiteColor;
-    int ncolors = indexPath.row + 2;
-    NSArray *colors = [self getColors:ncolors];
-    CGFloat w = self.view.bounds.size.width;
-    for (int i = 0; i < ncolors; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(w / ncolors * i, 0, w / ncolors, tableView.rowHeight)];
-        label.text = [@(i + 1) description];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.backgroundColor = colors[i];
-        [cell.contentView addSubview:label];
+    if (b > 0.50) {
+        b = 0.45;
+    } else if (b > 0.30) {
+        b -= 0.10;
     }
-    return cell;
+    return [UIColor colorWithHue:h saturation:s brightness:b alpha:a];
 }
 
 @end
