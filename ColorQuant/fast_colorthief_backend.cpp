@@ -195,9 +195,9 @@ void iter(PQueue<VBox, decltype(box_count_compare)>& lh, double target, std::vec
             throw std::runtime_error("vbox1 not defined; shouldnt happen!");
         }
 
-        lh.push(vbox1.value());
+        lh.push(*vbox1);
         if (vbox2) {
-            lh.push(vbox2.value());
+            lh.push(*vbox2);
             n_color += 1;
         }
         if ((double)n_color >= target || n_iter > MAX_ITERATION) {
