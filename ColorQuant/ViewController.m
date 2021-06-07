@@ -6,7 +6,7 @@
 //
 
 #import "ViewController.h"
-#import <leptonica/allheaders.h>
+#import <ColorQuant-Swift.h>
 
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic) UIImage *image;
@@ -51,61 +51,14 @@
     if (image) {
         self.image = image;
         self.imageView.image = image;
-        UIColor *color = [self getColors:5].firstObject;
+        NSDate *begin = [NSDate date];
+        int quality = MAX(10, MAX(image.size.height, image.size.width) / 50);
+        UIColor *color = [ColorThief getColorFrom:image quality:quality ignoreWhite:YES];
+        NSLog(@"time %f, %@, %d", [begin timeIntervalSinceNow], NSStringFromCGSize(image.size), quality);
         self.originalView.backgroundColor = color; // 未经过手工调色
         self.view.backgroundColor = [self adjusted:color]; // 手工调色
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (NSArray<UIColor *> *)getColors:(int)MaxColors {
-    struct CGImage *cgImage = [self.image CGImage];
-
-    // 截图 PNG 每像素 16 bit，需特别处理
-    if (CGImageGetBitsPerPixel(cgImage) != 32) {
-        size_t w = CGImageGetWidth(cgImage);
-        size_t h = CGImageGetHeight(cgImage);
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        CGContextRef context = CGBitmapContextCreate(nil, w, h, 8, 0, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast); // kCGImageAlphaNoneSkipLast
-
-        CGContextDrawImage(context, CGRectMake(0, 0, w, h), cgImage);
-        cgImage = CGBitmapContextCreateImage(context);
-        [UIImagePNGRepresentation([[UIImage alloc] initWithCGImage:cgImage]) writeToFile:@"/tmp/lept-orig.png" atomically:YES];
-        CGContextRelease(context);
-        CGColorSpaceRelease(colorSpace);
-    }
-
-    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-    const UInt8 *imageData = CFDataGetBytePtr(data);
-
-    struct Pix myPix = {};
-
-    myPix.w = (l_uint32)CGImageGetWidth(cgImage);
-    myPix.h = (l_uint32)CGImageGetHeight(cgImage);
-    myPix.d = (l_uint32)CGImageGetBitsPerPixel(cgImage);
-    myPix.wpl = (l_uint32)CGImageGetBytesPerRow(cgImage) / 4;
-    myPix.data = (l_uint32 *)imageData;
-    myPix.spp = myPix.d / 8;
-
-    if (cgImage == [self.image CGImage]) {
-        pixEndianByteSwap(&myPix);
-    }
-
-//  pixMedianCutQuantGeneral(<#PIX *pixs#>, <#l_int32 ditherflag#>, <#l_int32 outdepth#>, <#l_int32 maxcolors#>, <#l_int32 sigbits#>, <#l_int32 maxsub#>, <#l_int32 checkbw#>)
-//  NSLog(@"pixWrite=%d", pixWrite("/tmp/lept-res.bmp", &myPix, IFF_BMP));
-    struct Pix *newPix = pixMedianCutQuantGeneral(&myPix, 0, 0, MaxColors, 0, 10, 0);
-//  NSLog(@"pixWrite=%d", pixWrite("/tmp/lept-new.bmp", newPix, IFF_BMP));
-
-    if (!newPix) {
-        return nil;
-    }
-    NSMutableArray *colors = [NSMutableArray array];
-    for (int i = 0; i < newPix->colormap->n; i++) {
-        struct RGBA_Quad c = ((struct RGBA_Quad *)newPix->colormap->array)[i];
-        UIColor *uiColor = [UIColor colorWithRed:c.red / 255.0 green:c.green / 255.0 blue:c.blue / 255.0 alpha:c.alpha / 255.0];
-        [colors addObject:uiColor];
-    }
-    return colors;
 }
 
 - (UIColor *)adjusted:(UIColor *)input {

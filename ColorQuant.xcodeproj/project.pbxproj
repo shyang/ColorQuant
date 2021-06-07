@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD2088F52635D89300FD41C6 /* libleptonica.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD2088F42635D89300FD41C6 /* libleptonica.a */; };
+		AD5F4D03266E2DB200B27577 /* MMCQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F4D01266E2DB200B27577 /* MMCQ.swift */; };
+		AD5F4D04266E2DB200B27577 /* ColorThief.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F4D02266E2DB200B27577 /* ColorThief.swift */; };
 		ADEF5B6A2635AB5B00B27577 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEF5B692635AB5B00B27577 /* AppDelegate.m */; };
 		ADEF5B702635AB5B00B27577 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEF5B6F2635AB5B00B27577 /* ViewController.m */; };
 		ADEF5B732635AB5B00B27577 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF5B712635AB5B00B27577 /* Main.storyboard */; };
@@ -17,7 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AD2088F42635D89300FD41C6 /* libleptonica.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libleptonica.a; sourceTree = "<group>"; };
+		AD5F4CFD266E2D3E00B27577 /* ColorQuant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ColorQuant-Bridging-Header.h"; sourceTree = "<group>"; };
+		AD5F4D01266E2DB200B27577 /* MMCQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMCQ.swift; sourceTree = "<group>"; };
+		AD5F4D02266E2DB200B27577 /* ColorThief.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorThief.swift; sourceTree = "<group>"; };
 		ADEF5B652635AB5B00B27577 /* ColorQuant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorQuant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF5B682635AB5B00B27577 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADEF5B692635AB5B00B27577 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -35,18 +38,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD2088F52635D89300FD41C6 /* libleptonica.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B5944A508E580124335C7E5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		ADEF5B5C2635AB5B00B27577 = {
 			isa = PBXGroup;
 			children = (
 				ADEF5B672635AB5B00B27577 /* ColorQuant */,
 				ADEF5B662635AB5B00B27577 /* Products */,
+				4B5944A508E580124335C7E5 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,11 +71,13 @@
 		ADEF5B672635AB5B00B27577 /* ColorQuant */ = {
 			isa = PBXGroup;
 			children = (
-				AD2088F42635D89300FD41C6 /* libleptonica.a */,
 				ADEF5B682635AB5B00B27577 /* AppDelegate.h */,
 				ADEF5B692635AB5B00B27577 /* AppDelegate.m */,
 				ADEF5B6E2635AB5B00B27577 /* ViewController.h */,
 				ADEF5B6F2635AB5B00B27577 /* ViewController.m */,
+				AD5F4D02266E2DB200B27577 /* ColorThief.swift */,
+				AD5F4D01266E2DB200B27577 /* MMCQ.swift */,
+				AD5F4CFD266E2D3E00B27577 /* ColorQuant-Bridging-Header.h */,
 				ADEF5B712635AB5B00B27577 /* Main.storyboard */,
 				ADEF5B742635AB5C00B27577 /* Assets.xcassets */,
 				ADEF5B762635AB5C00B27577 /* LaunchScreen.storyboard */,
@@ -105,6 +117,7 @@
 				TargetAttributes = {
 					ADEF5B642635AB5B00B27577 = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -147,6 +160,8 @@
 				ADEF5B702635AB5B00B27577 /* ViewController.m in Sources */,
 				ADEF5B6A2635AB5B00B27577 /* AppDelegate.m in Sources */,
 				ADEF5B7B2635AB5C00B27577 /* main.m in Sources */,
+				AD5F4D03266E2DB200B27577 /* MMCQ.swift in Sources */,
+				AD5F4D04266E2DB200B27577 /* ColorThief.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +308,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y28X3YR8R9;
 				INFOPLIST_FILE = ColorQuant/Info.plist;
@@ -306,6 +322,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.un.ColorQuant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ColorQuant/ColorQuant-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -315,6 +334,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y28X3YR8R9;
 				INFOPLIST_FILE = ColorQuant/Info.plist;
@@ -328,6 +348,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.un.ColorQuant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ColorQuant/ColorQuant-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
