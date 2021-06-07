@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD5F4D03266E2DB200B27577 /* MMCQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F4D01266E2DB200B27577 /* MMCQ.swift */; };
-		AD5F4D04266E2DB200B27577 /* ColorThief.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F4D02266E2DB200B27577 /* ColorThief.swift */; };
+		ADA52ED3266E68DB00FD41C6 /* fast_colorthief_backend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA52ED1266E68DB00FD41C6 /* fast_colorthief_backend.cpp */; };
+		ADA52ED7266E74D000FD41C6 /* ColorThief.mm in Sources */ = {isa = PBXBuildFile; fileRef = ADA52ED6266E74D000FD41C6 /* ColorThief.mm */; };
 		ADEF5B6A2635AB5B00B27577 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEF5B692635AB5B00B27577 /* AppDelegate.m */; };
-		ADEF5B702635AB5B00B27577 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEF5B6F2635AB5B00B27577 /* ViewController.m */; };
+		ADEF5B702635AB5B00B27577 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ADEF5B6F2635AB5B00B27577 /* ViewController.mm */; };
 		ADEF5B732635AB5B00B27577 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF5B712635AB5B00B27577 /* Main.storyboard */; };
 		ADEF5B752635AB5C00B27577 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADEF5B742635AB5C00B27577 /* Assets.xcassets */; };
 		ADEF5B782635AB5C00B27577 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF5B762635AB5C00B27577 /* LaunchScreen.storyboard */; };
@@ -18,14 +18,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AD5F4CFD266E2D3E00B27577 /* ColorQuant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ColorQuant-Bridging-Header.h"; sourceTree = "<group>"; };
-		AD5F4D01266E2DB200B27577 /* MMCQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMCQ.swift; sourceTree = "<group>"; };
-		AD5F4D02266E2DB200B27577 /* ColorThief.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorThief.swift; sourceTree = "<group>"; };
+		ADA52ED1266E68DB00FD41C6 /* fast_colorthief_backend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fast_colorthief_backend.cpp; sourceTree = "<group>"; };
+		ADA52ED2266E68DB00FD41C6 /* cmap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cmap.hpp; sourceTree = "<group>"; };
+		ADA52ED5266E74D000FD41C6 /* ColorThief.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorThief.h; sourceTree = "<group>"; };
+		ADA52ED6266E74D000FD41C6 /* ColorThief.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ColorThief.mm; sourceTree = "<group>"; };
 		ADEF5B652635AB5B00B27577 /* ColorQuant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorQuant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF5B682635AB5B00B27577 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADEF5B692635AB5B00B27577 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		ADEF5B6E2635AB5B00B27577 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		ADEF5B6F2635AB5B00B27577 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		ADEF5B6F2635AB5B00B27577 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		ADEF5B722635AB5B00B27577 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADEF5B742635AB5C00B27577 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADEF5B772635AB5C00B27577 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -74,10 +75,11 @@
 				ADEF5B682635AB5B00B27577 /* AppDelegate.h */,
 				ADEF5B692635AB5B00B27577 /* AppDelegate.m */,
 				ADEF5B6E2635AB5B00B27577 /* ViewController.h */,
-				ADEF5B6F2635AB5B00B27577 /* ViewController.m */,
-				AD5F4D02266E2DB200B27577 /* ColorThief.swift */,
-				AD5F4D01266E2DB200B27577 /* MMCQ.swift */,
-				AD5F4CFD266E2D3E00B27577 /* ColorQuant-Bridging-Header.h */,
+				ADEF5B6F2635AB5B00B27577 /* ViewController.mm */,
+				ADA52ED2266E68DB00FD41C6 /* cmap.hpp */,
+				ADA52ED1266E68DB00FD41C6 /* fast_colorthief_backend.cpp */,
+				ADA52ED5266E74D000FD41C6 /* ColorThief.h */,
+				ADA52ED6266E74D000FD41C6 /* ColorThief.mm */,
 				ADEF5B712635AB5B00B27577 /* Main.storyboard */,
 				ADEF5B742635AB5C00B27577 /* Assets.xcassets */,
 				ADEF5B762635AB5C00B27577 /* LaunchScreen.storyboard */,
@@ -157,11 +159,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADEF5B702635AB5B00B27577 /* ViewController.m in Sources */,
+				ADA52ED7266E74D000FD41C6 /* ColorThief.mm in Sources */,
+				ADEF5B702635AB5B00B27577 /* ViewController.mm in Sources */,
 				ADEF5B6A2635AB5B00B27577 /* AppDelegate.m in Sources */,
 				ADEF5B7B2635AB5C00B27577 /* main.m in Sources */,
-				AD5F4D03266E2DB200B27577 /* MMCQ.swift in Sources */,
-				AD5F4D04266E2DB200B27577 /* ColorThief.swift in Sources */,
+				ADA52ED3266E68DB00FD41C6 /* fast_colorthief_backend.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +195,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -239,7 +241,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/leptonica/1.80.0/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -254,7 +255,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -294,7 +295,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/leptonica/1.80.0/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -322,7 +322,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.un.ColorQuant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "ColorQuant/ColorQuant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -348,7 +347,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.un.ColorQuant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "ColorQuant/ColorQuant-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

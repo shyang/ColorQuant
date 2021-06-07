@@ -6,7 +6,7 @@
 //
 
 #import "ViewController.h"
-#import <ColorQuant-Swift.h>
+#import "ColorThief.h"
 
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic) UIImage *image;
@@ -51,10 +51,7 @@
     if (image) {
         self.image = image;
         self.imageView.image = image;
-        NSDate *begin = [NSDate date];
-        int quality = MAX(10, MAX(image.size.height, image.size.width) / 50);
-        UIColor *color = [ColorThief getColorFrom:image quality:quality ignoreWhite:YES];
-        NSLog(@"time %f, %@, %d", [begin timeIntervalSinceNow], NSStringFromCGSize(image.size), quality);
+        UIColor *color = [ColorThief getColor:image];
         self.originalView.backgroundColor = color; // 未经过手工调色
         self.view.backgroundColor = [self adjusted:color]; // 手工调色
     }
