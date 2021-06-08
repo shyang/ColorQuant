@@ -34,13 +34,11 @@
 
     self.topView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 100, self.view.bounds.size.width - 20, 60)];
     self.topView.layer.borderWidth = 10;
-    self.topView.transform = CGAffineTransformMakeScale(1, -1);
     self.topView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:self.topView];
 
     self.bottomView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.view.bounds.size.height - 70 - self.view.safeAreaInsets.bottom, self.view.bounds.size.width - 20, 60)];
     self.bottomView.layer.borderWidth = 10;
-    self.bottomView.transform = CGAffineTransformMakeScale(1, -1);
     self.bottomView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:self.bottomView];
 }

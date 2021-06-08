@@ -28,7 +28,6 @@ std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
     CGFloat height = size.height;
     UIGraphicsBeginImageContext(CGSizeMake(width, height));
     CGContextRef context = UIGraphicsGetCurrentContext();
-    UIGraphicsPushContext(context);
 
     size_t num_locations = 2;
     CGFloat locations[2] = {0.0, 1.0};
@@ -39,13 +38,10 @@ std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
     CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
     CGGradientRef glossGradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, num_locations);
     CGPoint topCenter = CGPointZero;
-    CGPoint bottomCenter = CGPointZero;
-
-    bottomCenter = CGPointMake(0, height);
+    CGPoint bottomCenter = CGPointMake(0, height);
     CGContextDrawLinearGradient(context, glossGradient, topCenter, bottomCenter, 0);
     CGGradientRelease(glossGradient);
     CGColorSpaceRelease(rgbColorspace);
-    UIGraphicsPopContext();
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
@@ -63,6 +59,8 @@ std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
 
     CGContext *context = CGBitmapContextCreate(rawData, w, cropH, 8, 4 * w, colorSpace, kCGImageAlphaNoneSkipLast | kCGImageByteOrder32Little);
     UIGraphicsPushContext(context);
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -cropH);
     [self drawInRect:CGRectMake(0, -cropY, w, h)];
 
     CGImageRef cgImage = CGBitmapContextCreateImage(context);
@@ -82,7 +80,7 @@ std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
         pixels.push_back({r, g, b});
     }
     free(rawData);
-    auto output = quantize(pixels, 5);
+    auto output = quantize(pixels, 4);
     if (output.size() == 0) {
         return nil;
     }
