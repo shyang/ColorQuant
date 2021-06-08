@@ -18,9 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (ColorThief)
 
-- (UIColor *)getDominantColor;
-- (UIColor *)getDominantColorDownscaleTo:(CGFloat)width;
-
+- (UIColor *)getDominantColorDownscaleTo:(CGFloat)width startY:(CGFloat)startY endY:(CGFloat)endY cropped:(UIImage **)cropped;
++ (UIImage *)gradientImageWithSize:(CGSize)size
+                        startColor:(UIColor *)startColor
+                          endColor:(UIColor *)endColor;
 @end
 
 NS_ASSUME_NONNULL_END

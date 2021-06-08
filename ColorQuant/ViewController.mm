@@ -10,27 +10,39 @@
 
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic) UIImage *image;
+@property (nonatomic) UIImageView *bgView;
 @property (nonatomic) UIImageView *imageView;
-@property (nonatomic) UIView *originalView;
+@property (nonatomic) UIImageView *topView;
+@property (nonatomic) UIImageView *bottomView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.view.backgroundColor = UIColor.whiteColor;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Open" style:UIBarButtonItemStylePlain target:self action:@selector(onRight)];
+
+    UIImageView *bgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    self.bgView = bgView;
+    [self.view addSubview:bgView];
 
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 100, self.view.bounds.size.width - 100, self.view.bounds.size.height - 200)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView = imageView;
     [self.view addSubview:imageView];
 
-    self.originalView = [[UIView alloc] initWithFrame:CGRectMake(0, 100, 30, 30)];
-    self.originalView.layer.borderColor = [UIColor redColor].CGColor;
-    self.originalView.layer.masksToBounds = YES;
-    [self.view addSubview:self.originalView];
+    self.topView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 100, self.view.bounds.size.width - 20, 60)];
+    self.topView.layer.borderWidth = 10;
+    self.topView.transform = CGAffineTransformMakeScale(1, -1);
+    self.topView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:self.topView];
+
+    self.bottomView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.view.bounds.size.height - 70 - self.view.safeAreaInsets.bottom, self.view.bounds.size.width - 20, 60)];
+    self.bottomView.layer.borderWidth = 10;
+    self.bottomView.transform = CGAffineTransformMakeScale(1, -1);
+    self.bottomView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:self.bottomView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -51,9 +63,16 @@
     if (image) {
         self.image = image;
         self.imageView.image = image;
-        UIColor *color = [image getDominantColor];
-        self.originalView.backgroundColor = color; // 未经过手工调色
-        self.view.backgroundColor = [color adjusted]; // 手工调色
+        UIImage *output = nil;
+        UIColor *color1 = [[image getDominantColorDownscaleTo:400 startY:0 endY:0.25 cropped:&output] adjusted];
+        self.topView.image = output;
+        self.topView.layer.borderColor = color1.CGColor;
+
+        UIColor *color2 = [[image getDominantColorDownscaleTo:400 startY:0.75 endY:1 cropped:&output] adjusted];
+        self.bottomView.image = output;
+        self.bottomView.layer.borderColor = color2.CGColor;
+
+        self.bgView.image = [UIImage gradientImageWithSize:self.view.bounds.size startColor:color1 endColor:color2];
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }

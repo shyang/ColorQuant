@@ -16,19 +16,61 @@ std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
 
 @implementation UIImage (ColorThief)
 
-- (UIColor *)getDominantColor {
-    return [self getDominantColorDownscaleTo:400];
+
++ (UIImage *)gradientImageWithSize:(CGSize)size
+                        startColor:(UIColor *)startColor
+                          endColor:(UIColor *)endColor
+{
+    if (!startColor || !endColor || CGSizeEqualToSize(CGSizeZero, size)) {
+        return nil;
+    }
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIGraphicsPushContext(context);
+
+    size_t num_locations = 2;
+    CGFloat locations[2] = {0.0, 1.0};
+    const CGFloat *startComponents = CGColorGetComponents(startColor.CGColor);
+    const CGFloat *endComponents = CGColorGetComponents(endColor.CGColor);
+    CGFloat components[8] = {startComponents[0], startComponents[1], startComponents[2], startComponents[3],  // Start color
+        endComponents[0], endComponents[1], endComponents[2], endComponents[3]}; // End color
+    CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef glossGradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, num_locations);
+    CGPoint topCenter = CGPointZero;
+    CGPoint bottomCenter = CGPointZero;
+
+    bottomCenter = CGPointMake(0, height);
+    CGContextDrawLinearGradient(context, glossGradient, topCenter, bottomCenter, 0);
+    CGGradientRelease(glossGradient);
+    CGColorSpaceRelease(rgbColorspace);
+    UIGraphicsPopContext();
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
-- (UIColor *)getDominantColorDownscaleTo:(CGFloat)width {
+- (UIColor *)getDominantColorDownscaleTo:(CGFloat)width startY:(CGFloat)startY endY:(CGFloat)endY cropped:(UIImage **)cropped {
     CGSize sz = self.size;
     int w = MIN(sz.width, width);
     int h = w / sz.width * sz.height;
-    int total = w * h * 4;
+    int cropY = h * startY;
+    int cropH = h * (endY - startY);
+    int total = w * cropH * 4;
     UInt8 *rawData = (UInt8 *)malloc(total);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContext *context = CGBitmapContextCreate(rawData, w, h, 8, 4 * w, colorSpace, kCGImageAlphaNoneSkipLast | kCGImageByteOrder32Little);
-    CGContextDrawImage(context, CGRectMake(0, 0, w, h), self.CGImage);
+
+    CGContext *context = CGBitmapContextCreate(rawData, w, cropH, 8, 4 * w, colorSpace, kCGImageAlphaNoneSkipLast | kCGImageByteOrder32Little);
+    UIGraphicsPushContext(context);
+    [self drawInRect:CGRectMake(0, -cropY, w, h)];
+
+    CGImageRef cgImage = CGBitmapContextCreateImage(context);
+    UIImage *tmp = [[UIImage alloc] initWithCGImage:cgImage];
+    if (cropped) {
+        *cropped = tmp;
+    }
+    UIGraphicsPopContext();
     CGContextRelease(context);
     CGColorSpaceRelease(colorSpace);
 
