@@ -64,11 +64,11 @@
         self.image = image;
         self.imageView.image = image;
         UIImage *output = nil;
-        UIColor *color1 = [[image getDominantColorDownscaleTo:400 startY:0 endY:0.25 cropped:&output] adjusted];
+        UIColor *color1 = [image getDominantColorDownscaleTo:400 startY:0 endY:0.1 cropped:&output];
         self.topView.image = output;
         self.topView.layer.borderColor = color1.CGColor;
 
-        UIColor *color2 = [[image getDominantColorDownscaleTo:400 startY:0.75 endY:1 cropped:&output] adjusted];
+        UIColor *color2 = [image getDominantColorDownscaleTo:400 startY:0.9 endY:1 cropped:&output];
         self.bottomView.image = output;
         self.bottomView.layer.borderColor = color2.CGColor;
 
