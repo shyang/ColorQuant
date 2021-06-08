@@ -6,7 +6,7 @@
 //
 
 #import "ViewController.h"
-#import "ColorThief.h"
+#import "UIImage+ColorThief.h"
 
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic) UIImage *image;
@@ -51,39 +51,11 @@
     if (image) {
         self.image = image;
         self.imageView.image = image;
-        UIColor *color = [ColorThief getColor:image];
+        UIColor *color = [image getDominantColor];
         self.originalView.backgroundColor = color; // 未经过手工调色
-        self.view.backgroundColor = [self adjusted:color]; // 手工调色
+        self.view.backgroundColor = [color adjusted]; // 手工调色
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (UIColor *)adjusted:(UIColor *)input {
-    if (!input) {
-        return nil;
-    }
-    CGFloat h, s, b, a;
-    [input getHue:&h saturation:&s brightness:&b alpha:&a];
-
-    if (s <= 0.05 || s > 0.70) {
-        // ignore
-    } else if (s <= 0.10) {
-        s += 0.10;
-    } else if (s <= 0.30) {
-        s += 0.30;
-    } else if (s <= 0.40) {
-        s += 0.20;
-    } else if (s <= 0.50) {
-        s += 0.10;
-    } else if (s <= 0.70) {
-        s += 0.5;
-    }
-    if (b > 0.50) {
-        b = 0.45;
-    } else if (b > 0.30) {
-        b -= 0.10;
-    }
-    return [UIColor colorWithHue:h saturation:s brightness:b alpha:a];
 }
 
 @end
