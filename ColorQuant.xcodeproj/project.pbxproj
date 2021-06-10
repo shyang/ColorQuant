@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ADA52ED3266E68DB00FD41C6 /* fast_colorthief_backend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA52ED1266E68DB00FD41C6 /* fast_colorthief_backend.cpp */; };
 		ADA52ED7266E74D000FD41C6 /* UIImage+ColorThief.mm in Sources */ = {isa = PBXBuildFile; fileRef = ADA52ED6266E74D000FD41C6 /* UIImage+ColorThief.mm */; };
+		ADA58388267212CC0034E83F /* pix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA58383267212CC0034E83F /* pix.cpp */; };
+		ADA58389267212CC0034E83F /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA58385267212CC0034E83F /* vbox.cpp */; };
+		ADA5838A267212CC0034E83F /* colorquant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA58386267212CC0034E83F /* colorquant.cpp */; };
 		ADEF5B6A2635AB5B00B27577 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEF5B692635AB5B00B27577 /* AppDelegate.m */; };
 		ADEF5B702635AB5B00B27577 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ADEF5B6F2635AB5B00B27577 /* ViewController.mm */; };
 		ADEF5B732635AB5B00B27577 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF5B712635AB5B00B27577 /* Main.storyboard */; };
@@ -18,10 +20,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		ADA52ED1266E68DB00FD41C6 /* fast_colorthief_backend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fast_colorthief_backend.cpp; sourceTree = "<group>"; };
-		ADA52ED2266E68DB00FD41C6 /* cmap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cmap.hpp; sourceTree = "<group>"; };
 		ADA52ED5266E74D000FD41C6 /* UIImage+ColorThief.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorThief.h"; sourceTree = "<group>"; };
 		ADA52ED6266E74D000FD41C6 /* UIImage+ColorThief.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+ColorThief.mm"; sourceTree = "<group>"; };
+		ADA58382267212CC0034E83F /* pix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pix.h; sourceTree = "<group>"; };
+		ADA58383267212CC0034E83F /* pix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pix.cpp; sourceTree = "<group>"; };
+		ADA58384267212CC0034E83F /* colorquant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorquant.h; sourceTree = "<group>"; };
+		ADA58385267212CC0034E83F /* vbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox.cpp; sourceTree = "<group>"; };
+		ADA58386267212CC0034E83F /* colorquant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorquant.cpp; sourceTree = "<group>"; };
+		ADA58387267212CC0034E83F /* vbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox.h; sourceTree = "<group>"; };
 		ADEF5B652635AB5B00B27577 /* ColorQuant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorQuant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF5B682635AB5B00B27577 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADEF5B692635AB5B00B27577 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -76,10 +82,14 @@
 				ADEF5B692635AB5B00B27577 /* AppDelegate.m */,
 				ADEF5B6E2635AB5B00B27577 /* ViewController.h */,
 				ADEF5B6F2635AB5B00B27577 /* ViewController.mm */,
-				ADA52ED2266E68DB00FD41C6 /* cmap.hpp */,
-				ADA52ED1266E68DB00FD41C6 /* fast_colorthief_backend.cpp */,
 				ADA52ED5266E74D000FD41C6 /* UIImage+ColorThief.h */,
 				ADA52ED6266E74D000FD41C6 /* UIImage+ColorThief.mm */,
+				ADA58386267212CC0034E83F /* colorquant.cpp */,
+				ADA58384267212CC0034E83F /* colorquant.h */,
+				ADA58383267212CC0034E83F /* pix.cpp */,
+				ADA58382267212CC0034E83F /* pix.h */,
+				ADA58385267212CC0034E83F /* vbox.cpp */,
+				ADA58387267212CC0034E83F /* vbox.h */,
 				ADEF5B712635AB5B00B27577 /* Main.storyboard */,
 				ADEF5B742635AB5C00B27577 /* Assets.xcassets */,
 				ADEF5B762635AB5C00B27577 /* LaunchScreen.storyboard */,
@@ -161,9 +171,11 @@
 			files = (
 				ADA52ED7266E74D000FD41C6 /* UIImage+ColorThief.mm in Sources */,
 				ADEF5B702635AB5B00B27577 /* ViewController.mm in Sources */,
+				ADA58389267212CC0034E83F /* vbox.cpp in Sources */,
+				ADA58388267212CC0034E83F /* pix.cpp in Sources */,
+				ADA5838A267212CC0034E83F /* colorquant.cpp in Sources */,
 				ADEF5B6A2635AB5B00B27577 /* AppDelegate.m in Sources */,
 				ADEF5B7B2635AB5C00B27577 /* main.m in Sources */,
-				ADA52ED3266E68DB00FD41C6 /* fast_colorthief_backend.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +322,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y28X3YR8R9;
+				DEVELOPMENT_TEAM = 68PKSKE2VX;
 				INFOPLIST_FILE = ColorQuant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -335,7 +347,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y28X3YR8R9;
+				DEVELOPMENT_TEAM = 68PKSKE2VX;
 				INFOPLIST_FILE = ColorQuant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

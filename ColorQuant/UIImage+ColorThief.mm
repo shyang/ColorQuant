@@ -6,13 +6,7 @@
 //
 
 #import "UIImage+ColorThief.h"
-
-#import <tuple>
-#import <cstdint>
-#import <vector>
-
-using color_t = std::tuple<uint8_t, uint8_t, uint8_t>;
-std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
+#import "colorquant.h"
 
 @implementation UIImage (ColorThief)
 
@@ -57,7 +51,7 @@ std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
     UInt8 *rawData = (UInt8 *)malloc(total);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
-    CGContext *context = CGBitmapContextCreate(rawData, w, cropH, 8, 4 * w, colorSpace, kCGImageAlphaNoneSkipLast | kCGImageByteOrder32Little);
+    struct CGContext *context = CGBitmapContextCreate(rawData, w, cropH, 8, 4 * w, colorSpace, kCGImageAlphaNoneSkipLast | kCGImageByteOrder32Big);
     UIGraphicsPushContext(context);
     CGContextScaleCTM(context, 1, -1);
     CGContextTranslateCTM(context, 0, -cropH);
@@ -72,20 +66,19 @@ std::vector<color_t> quantize(std::vector<color_t>& pixels, int max_color);
     CGContextRelease(context);
     CGColorSpaceRelease(colorSpace);
 
-    std::vector<color_t> pixels;
-    for (int i = 0; i < total; i += 4) {
-        UInt8 b = rawData[i + 1];
-        UInt8 g = rawData[i + 2];
-        UInt8 r = rawData[i + 3];
-        pixels.push_back({r, g, b});
-    }
-    free(rawData);
-    auto output = quantize(pixels, 4);
-    if (output.size() == 0) {
+    auto myPix = std::make_shared<Pix>();
+    myPix->depth = 4;
+    myPix->n = total / 4;
+    myPix->pixs = rawData;
+
+    // 5 colors, default sigbits, no subsampling
+    auto cmap = pix_median_cut_quant(myPix, 5, DEFAULT_SIG_BITS, 1);
+    if (!cmap || cmap->n < 1) {
         return nil;
     }
-    auto first = output[0];
-    return [UIColor colorWithRed:std::get<0>(first) / 255.0 green:std::get<1>(first) / 255.0 blue:std::get<2>(first) / 255.0 alpha:1];
+    auto first = *cmap->array->begin();
+
+    return [UIColor colorWithRed:first->red / 255.0 green:first->green / 255.0 blue:first->blue / 255.0 alpha:1];
 }
 
 @end
